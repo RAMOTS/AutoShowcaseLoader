@@ -8,10 +8,14 @@ import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 public class Main {
     //Vars for easy modification
+    //USE VARIABLES UNDER HERE
+    //-------------------------
     private static String botToken = "abc";
     private static String activity = "with your mom";
     private static Long logID = 123L;
     private static Long welcomeID = 123L;
+    //--------------------------
+    //USE VARIABLES ABOVE HERE
 
 
     static JDA bot;
