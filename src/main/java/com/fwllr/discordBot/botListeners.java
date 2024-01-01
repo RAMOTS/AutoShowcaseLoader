@@ -14,52 +14,31 @@ public class botListeners extends ListenerAdapter {
     }
 
     @Override
-    public void onGuildVoiceUpdate(GuildVoiceUpdateEvent event) {
-        String author = event.getMember().getEffectiveName();
-        TextChannel log = event.getJDA().getTextChannelById(Main.getLogID());
-
-        if(event.getChannelJoined() != null){
-            String channel = event.getChannelJoined().getName();
-
-            log.sendMessage("The user \"" + author  + " with dc uid: " + event.getMember().getId() + "\" joined the voice channel \"" + channel + "\"").queue();
-        }else{
-            String channel = event.getChannelLeft().getName();
-
-            log.sendMessage("The user \"" + author + "\" left the voice channel \"" + channel + "\"").queue();
-        }
-    }
-
-    @Override
     public void onMessageReceived(MessageReceivedEvent event) {
 
-        if(!event.getAuthor().isBot()) {
+        if(!event.getAuthor().isBot() && event.getChannel() == 730618613609922570L) {
+            Message message = event.getMessage();
 
-            String messageContent = event.getMessage().getContentRaw();
-            String messageChannel = event.getChannel().getName();
-            String messageAuthor = event.getAuthor().getName();
+            List<Message.Attachment> attachments = message.getAttachments();
+            if (!attachments.isEmpty()) {
+                for (Message.Attachment attachment : attachments) {
+                    String mediaUrl = attachment.getUrl();
+                    System.out.println("Media URL: " + mediaUrl);
+                }
+            }
 
-            System.out.println("[" + messageChannel + "]: " + messageAuthor + ": " + messageContent);
-
-            if(!messageContent.equals("")) {
-                TextChannel log = event.getJDA().getTextChannelById(Main.getLogID());
-                log.sendMessage("A Message was sent in \"" + messageChannel + "\" by User " + messageAuthor + " : " + messageContent).queue();
-
-                //event.getMessage().reply("Thanks for your Message").queue();
-
-                TextChannel channel = event.getChannel().asTextChannel();
-                String authorID = event.getMember().getId();
-                channel.sendMessage("<@" + authorID + "> send a Message").queue();
+            List<MessageEmbed> embeds = message.getEmbeds();
+            if (!embeds.isEmpty()) {
+                for (MessageEmbed embed : embeds) {
+                    List<MessageEmbed.Field> fields = embed.getFields();
+                    for (MessageEmbed.Field field : fields) {
+                        if (field.getName().equalsIgnoreCase("image")) { // or check for other types like video, etc.
+                            String mediaUrl = field.getValue();
+                            System.out.println("Media URL: " + mediaUrl);
+                        }
+                    }
+                }
             }
         }
-    }
-
-    @Override
-    public void onGuildMemberJoin(GuildMemberJoinEvent event) {
-        TextChannel welcome = event.getJDA().getTextChannelById(Main.getWelcomeID());
-        TextChannel log = event.getJDA().getTextChannelById(Main.getLogID());
-        String joinedMember = event.getMember().getId();
-
-        welcome.sendMessage("Welcome to Mini Varo 1, <@" + joinedMember + ">").queue();
-        log.sendMessage("<@" + joinedMember + "> joined the server").queue();
     }
 }

@@ -10,10 +10,11 @@ public class Main {
     //Vars for easy modification
     //USE VARIABLES UNDER HERE
     //-------------------------
-    private static String botToken = "abc";
+    private static String botToken = "MTE5MTA4NjY3NDE0MzM1ODk4NQ.Gss1y8.H5iLuV1VoXK1I_c0JZXWoKrDedIFfn0UmPaOPg";
     private static String activity = "with your mom";
     private static Long logID = 123L;
     private static Long welcomeID = 123L;
+    private static Long guildID = 721740947289014292L;
     //--------------------------
     //USE VARIABLES ABOVE HERE
 
@@ -42,7 +43,7 @@ public class Main {
             log = bot.getTextChannelById(logID);
             log.sendMessage("The bot has started").queue();
 
-            bot.getGuildById("1037484592254435358").upsertCommand("helloworld", "get me the active developer badge").queue();
+            bot.getGuildById(guildID).upsertCommand("helloworld", "get me the active developer badge").queue();
 
             System.out.println("... login succeeded");
         } catch (InterruptedException e) {
